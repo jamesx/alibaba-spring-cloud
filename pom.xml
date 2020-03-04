@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.august</groupId>
+    <artifactId>alibaba</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>alibaba-commons</module>
+        <module>alibaba-core</module>
+        <module>alibaba-quickstart</module>
+        <module>alibaba-user</module>
+        <module>alibaba-order</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.1.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring.cloud.version>Hoxton.RELEASE</spring.cloud.version>
+        <spring.cloud.alibaba.version>2.2.0.RELEASE</spring.cloud.alibaba.version>
+        <mybatis.plus.version>3.3.0</mybatis.plus.version>
+        <swagger.version>2.7.0</swagger.version>
+        <jwt.version>0.9.0</jwt.version>
+        <mysql.version>5.1.46</mysql.version>
+        <mybatis.plus.version>3.3.0</mybatis.plus.version>
+        <commons.lang3.version>3.9</commons.lang3.version>
+        <alibaba.cloud.pms.api.version>1.0-SNAPSHOT</alibaba.cloud.pms.api.version>
+        <alibaba.cloud.ums.api.version>1.0-SNAPSHOT</alibaba.cloud.ums.api.version>
+        <alibaba.cloud.core.version>1.0-SNAPSHOT</alibaba.cloud.core.version>
+        <alibaba.cloud.common.version>1.0-SNAPSHOT</alibaba.cloud.common.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>
