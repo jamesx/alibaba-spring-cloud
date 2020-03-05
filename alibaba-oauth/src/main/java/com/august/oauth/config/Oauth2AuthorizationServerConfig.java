@@ -69,14 +69,12 @@ public class Oauth2AuthorizationServerConfig extends AuthorizationServerConfigur
     @Bean
     public JwtAccessTokenConverter jwtAccessToken() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("jojo.key"), "123456".toCharArray());
-        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("jojo"));
         KeyPair keyPair = new KeyStoreKeyFactory(
-                keyProperties.getKeyStore().getLocation(),                          //证书路径 changgou.jks
-                keyProperties.getKeyStore().getSecret().toCharArray())              //证书秘钥 changgouapp
+                keyProperties.getKeyStore().getLocation(),                          //证书路径 august.jks
+                keyProperties.getKeyStore().getSecret().toCharArray())              //证书秘钥 august
                 .getKeyPair(
-                        keyProperties.getKeyStore().getAlias(),                     //证书别名 changgou
-                        keyProperties.getKeyStore().getPassword().toCharArray());   //证书密码 changgou
+                        keyProperties.getKeyStore().getAlias(),                     //证书别名 august
+                        keyProperties.getKeyStore().getPassword().toCharArray());   //证书密码 august
         converter.setKeyPair(keyPair);
         return converter;
     }
