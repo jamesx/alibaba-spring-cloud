@@ -1,5 +1,6 @@
 package com.august.order.controller;
 
+import com.august.order.feign.UserFeign;
 import com.august.user.feign.UserFeignApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     @Autowired
-    UserFeignApi userFeignApi;
+    UserFeign userFeign;
 
     @GetMapping("/hello")
     public String hello() {
@@ -23,7 +24,7 @@ public class OrderController {
     //http://localhost:8082/order/userFeign
     @GetMapping("/userFeign")
     public String userFeignApi(){
-        return userFeignApi.hello();
+        return userFeign.hello();
     }
 
 }
