@@ -1,10 +1,12 @@
 package com.august.oauth.config;
+import com.august.core.bean.Resp;
 import com.august.oauth.entity.UserJwt;
+import com.august.oauth.feign.UserFeign;
+import com.august.user.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,8 +26,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     ClientDetailsService clientDetailsService;
 
-//    @Autowired
-//    private UmsApi umsApi;
+    @Autowired
+    private UserFeign userFeign;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -49,16 +51,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         //根据用户名查询用户信息
-//        String pwd = umsApi.findByUserName(username).getData().getPassword();
-//        //创建User对象
-//        String permissions = "goods_list,seckill_list";
-//        UserJwt userDetails = new UserJwt(username,passwordEncoder.encode("123456"), AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
-//        userDetails.setComny("阿里巴巴");
-//        return userDetails;
+        String hello = userFeign.hello("august");
 
-        return User.withUsername(username)
-                .password(passwordEncoder.encode("123456"))
-                .authorities("ROLE_ADMIN")
-                .build();
+        Resp<User> resp = userFeign.findByUserName(username);
+        //创建User对象
+        String permissions = "goods_list,seckill_list";
+        UserJwt userDetails = new UserJwt(username,resp.getData().getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
+        userDetails.setComny("阿里巴巴");
+        return userDetails;
+//        return User.withUsername(username)
+//                .password(passwordEncoder.encode("123456"))
+//                .authorities("ROLE_ADMIN")
+//                .build();
     }
 }

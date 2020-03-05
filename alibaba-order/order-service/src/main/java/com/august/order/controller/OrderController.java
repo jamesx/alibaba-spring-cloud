@@ -34,7 +34,7 @@ public class OrderController {
     //http://localhost:8082/order/userFeign
     @GetMapping("/userFeign")
     public String userFeignApi(){
-        return userFeign.hello();
+        return userFeign.hello("august");
     }
 
     /**

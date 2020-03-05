@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public AuthToken login(String username, String password, String clientId, String clientSecret, String grandType) {
 
-        ServiceInstance serviceInstance = loadBalancerClient.choose("alibaba-cloud-oauth");
+        ServiceInstance serviceInstance = loadBalancerClient.choose("alibaba-oauth");
 
         if (serviceInstance == null) {
             throw new RuntimeException("找不到对应的服务");

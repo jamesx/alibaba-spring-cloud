@@ -6,8 +6,10 @@ import com.august.core.bean.Resp;
 import com.august.user.feign.OrderFeign;
 import com.august.user.po.User;
 import com.august.user.service.IUserService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,14 +27,24 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping("/hello")
-    public String hello() {
-        return "Hello~";
+    public String hello(String msg) {
+        return "Hello~: "+msg;
     }
 
     //http://localhost:8081/user/orderFeign
     @GetMapping("/orderFeign")
     public String orderFeignApi(){
         return orderFeign.hello();
+    }
+
+
+    @ApiOperation("根据用户名获取用户信息")
+    @GetMapping("/info")
+    public Resp<User> findByUserName(String userName) {
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.eq(userName!=null,User::getUserName,userName);
+        User user = userService.getOne(userLambdaQueryWrapper);
+        return Resp.ok(user);
     }
 
     /**

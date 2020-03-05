@@ -72,9 +72,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //下边的路径放行
+//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                .antMatchers(HttpMethod.GET, "/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/**").permitAll()
+//                .antMatchers(HttpMethod.PUT, "/**").permitAll()
+//                .antMatchers(HttpMethod.DELETE, "/**").permitAll()
                 .antMatchers(
-                        "/user/hello"). //配置地址放行
-                permitAll()
+                        "/user/info","/user/hello") //配置地址放行
+                .permitAll()
                 .anyRequest()
                 .authenticated();    //其他地址需要认证授权
     }
