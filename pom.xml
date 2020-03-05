@@ -13,6 +13,7 @@
         <module>alibaba-quickstart</module>
         <module>alibaba-user</module>
         <module>alibaba-order</module>
+        <module>alibaba-gateway</module>
     </modules>
     <packaging>pom</packaging>
 
