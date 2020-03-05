@@ -14,6 +14,7 @@
         <module>alibaba-user</module>
         <module>alibaba-order</module>
         <module>alibaba-gateway</module>
+        <module>alibaba-oauth</module>
     </modules>
     <packaging>pom</packaging>
 
