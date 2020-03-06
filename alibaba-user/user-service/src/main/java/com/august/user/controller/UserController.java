@@ -11,9 +11,7 @@ import com.august.user.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.*;
@@ -33,18 +31,14 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping("/hello")
-    public String hello(String msg) {
-        return "Hello~: "+msg;
+    public String hello() {
+        return "Hello~: ";
     }
 
     @GetMapping("/userInfo")
     public String getUserInfo(){
         OAuth2AuthenticationDetails authentication = (OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
-
-
         Map<String, String> stringStringMap = JwtUtil.decodeToken(authentication.getTokenValue(), ResourceServerConfig.PUBLIC_KEY);
-
-        System.out.println("2222");
         return "";
 
     }

@@ -15,7 +15,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/oauth")
 public class UserLoginController {
 
     @Autowired
@@ -45,11 +45,13 @@ public class UserLoginController {
      * @return
      */
     @RequestMapping("/login")
-    public Resp<AuthToken> login(String username, String password) {
+    public Resp<AuthToken> login(String username, String password,HttpServletResponse response) {
         //登录 之后生成令牌的数据返回
         AuthToken authToken = loginService.login(username, password, clientId, clientSecret, GRAND_TYPE);
         //设置到cookie中
         saveCookie(authToken.getAccessToken());
+        // 设置到头文件中
+        response.setHeader("Authorization", authToken.getAccessToken());
         return Resp.ok(authToken);
     }
 
