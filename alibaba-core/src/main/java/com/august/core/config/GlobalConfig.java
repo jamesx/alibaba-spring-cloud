@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component;
 public class GlobalConfig {
     private Boolean enabledCache;
     private Boolean enabledRbac;
-    private Boolean exceptionHandle;
+    private Boolean enabledValidation;
 }

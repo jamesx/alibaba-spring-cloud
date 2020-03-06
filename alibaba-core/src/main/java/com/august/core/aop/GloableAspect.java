@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
 @Slf4j
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class GloableAspect {
 
     @Autowired
@@ -22,13 +22,14 @@ public class GloableAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object proceed = null;
         try {
-            log.debug("校验切面介入工作...."+globalConfig.getExceptionHandle());
-            Object[] args = point.getArgs();
-            for (Object obj:args){
-                if(obj instanceof BindingResult){
-                    BindingResult r = (BindingResult) obj;
-                    if(r.getErrorCount()>0){
-                        return Resp.fail(r.getFieldError().getDefaultMessage());
+            if(globalConfig.getEnabledValidation()){
+                Object[] args = point.getArgs();
+                for (Object obj:args){
+                    if(obj instanceof BindingResult){
+                        BindingResult r = (BindingResult) obj;
+                        if(r.getErrorCount()>0){
+                            return Resp.fail(r.getFieldError().getDefaultMessage());
+                        }
                     }
                 }
             }

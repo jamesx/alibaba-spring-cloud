@@ -104,8 +104,6 @@ public class UserController {
 //
 //        }
 
-        int a=3/0;
-
         User user = new User();
         BeanUtils.copyProperties(userDto,user);
         userService.save(user);

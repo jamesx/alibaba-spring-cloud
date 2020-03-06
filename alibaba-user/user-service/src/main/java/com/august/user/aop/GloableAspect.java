@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
 @Slf4j
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class GloableAspect {
     @Around("execution(* com.august..*Controller.*(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
