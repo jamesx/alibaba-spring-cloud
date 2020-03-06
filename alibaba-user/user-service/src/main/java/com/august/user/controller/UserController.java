@@ -5,18 +5,24 @@ import com.august.core.bean.PageVo;
 import com.august.core.bean.QueryCondition;
 import com.august.core.bean.Resp;
 import com.august.user.config.ResourceServerConfig;
+import com.august.user.dto.UserDto;
 import com.august.user.feign.OrderFeign;
 import com.august.user.po.User;
 import com.august.user.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -48,7 +54,6 @@ public class UserController {
     public String orderFeignApi(){
         return orderFeign.hello();
     }
-
 
     @ApiOperation("根据用户名获取用户信息")
     @GetMapping("/info")
@@ -86,7 +91,23 @@ public class UserController {
      */
     @ApiOperation("保存")
     @PostMapping("/save")
-    public Resp<Object> save(@RequestBody User user){
+    public Resp<Object> save(@Valid @RequestBody UserDto userDto, BindingResult result){
+//        if(result.getErrorCount()>0){
+//            List<FieldError> fieldErrors = result.getFieldErrors();
+//            fieldErrors.forEach((fieldError)->{
+//                String field = fieldError.getField();
+//                log.debug("属性：{}，传来的值是：{}，校验出错。出错的提示消息：{}",
+//                        field,fieldError.getRejectedValue(),fieldError.getDefaultMessage());
+//            });
+//            return Resp.fail(result.getAllErrors().toString());
+//        }else {
+//
+//        }
+
+        int a=3/0;
+
+        User user = new User();
+        BeanUtils.copyProperties(userDto,user);
         userService.save(user);
         return Resp.ok(null);
     }
