@@ -1,14 +1,25 @@
 package com.august.commons;
 
+import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.security.jwt.Jwt;
+import org.springframework.security.jwt.JwtHelper;
+import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class JwtUtil {
     //有效期为
@@ -61,7 +72,7 @@ public class JwtUtil {
      *
      * @return
      */
-    public static SecretKey generalKey() {
+    private static SecretKey generalKey() {
         byte[] encodedKey = Base64.getEncoder().encode(JwtUtil.JWT_KEY.getBytes());
         SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
         return key;
@@ -83,6 +94,23 @@ public class JwtUtil {
                 .getBody();
     }
 
+    public static Map<String, String> decodeToken(String token,String pubKey) {
+        Resource resource = new ClassPathResource(pubKey);
+        String pubKeyContent="";
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(resource.getInputStream());
+            BufferedReader br = new BufferedReader(inputStreamReader);
+            pubKeyContent = br.lines().collect(Collectors.joining("\n"));
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        Jwt jwt = JwtHelper.decodeAndVerify(token, new RsaVerifier(pubKeyContent));
+        String claims = jwt.getClaims();//{}
+        Map<String,String> map = JSON.parseObject(claims, Map.class);
+        return map;
+    }
+
+
     public static void main(String[] args) {
         String jwt = JwtUtil.createJWT("weiyibiaoshi", "aaaaaa", null);
         System.out.println(jwt);
@@ -92,7 +120,6 @@ public class JwtUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 }

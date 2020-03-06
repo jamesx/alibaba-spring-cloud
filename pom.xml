@@ -34,13 +34,10 @@
         <mybatis.plus.version>3.3.0</mybatis.plus.version>
         <swagger.version>2.7.0</swagger.version>
         <jwt.version>0.9.0</jwt.version>
+        <fastjson.version>1.2.51</fastjson.version>
         <mysql.version>5.1.46</mysql.version>
         <mybatis.plus.version>3.3.0</mybatis.plus.version>
         <commons.lang3.version>3.9</commons.lang3.version>
-        <alibaba.cloud.pms.api.version>1.0-SNAPSHOT</alibaba.cloud.pms.api.version>
-        <alibaba.cloud.ums.api.version>1.0-SNAPSHOT</alibaba.cloud.ums.api.version>
-        <alibaba.cloud.core.version>1.0-SNAPSHOT</alibaba.cloud.core.version>
-        <alibaba.cloud.common.version>1.0-SNAPSHOT</alibaba.cloud.common.version>
     </properties>
 
     <dependencyManagement>

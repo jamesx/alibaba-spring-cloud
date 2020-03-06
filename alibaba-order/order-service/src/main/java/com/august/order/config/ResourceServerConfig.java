@@ -1,4 +1,4 @@
-package com.august.user.config;
+package com.august.order.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +17,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
-//激活方法上的PreAuthorize注解
 @Configuration
 @EnableResourceServer
-//@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     //公钥
-    public static final String PUBLIC_KEY = "public.key";
+    private static final String PUBLIC_KEY = "public.key";
 
     /***
      * 定义JwtTokenStore
@@ -78,7 +76,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 //                .antMatchers(HttpMethod.PUT, "/**").permitAll()
 //                .antMatchers(HttpMethod.DELETE, "/**").permitAll()
                 .antMatchers(
-                        "/user/info","/user/hello") //配置地址放行
+                        "/order/list") //配置地址放行
                 .permitAll()
                 .anyRequest()
                 .authenticated();    //其他地址需要认证授权
@@ -86,7 +84,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resource) throws Exception {
-        resource.resourceId("user-service");
+        resource.resourceId("order-service");
     }
 
 }

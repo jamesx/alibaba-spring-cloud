@@ -1,8 +1,10 @@
 package com.august.user.controller;
 
+import com.august.commons.JwtUtil;
 import com.august.core.bean.PageVo;
 import com.august.core.bean.QueryCondition;
 import com.august.core.bean.Resp;
+import com.august.user.config.ResourceServerConfig;
 import com.august.user.feign.OrderFeign;
 import com.august.user.po.User;
 import com.august.user.service.IUserService;
@@ -11,9 +13,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -29,6 +35,18 @@ public class UserController {
     @GetMapping("/hello")
     public String hello(String msg) {
         return "Hello~: "+msg;
+    }
+
+    @GetMapping("/userInfo")
+    public String getUserInfo(){
+        OAuth2AuthenticationDetails authentication = (OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+
+
+        Map<String, String> stringStringMap = JwtUtil.decodeToken(authentication.getTokenValue(), ResourceServerConfig.PUBLIC_KEY);
+
+        System.out.println("2222");
+        return "";
+
     }
 
     //http://localhost:8081/user/orderFeign

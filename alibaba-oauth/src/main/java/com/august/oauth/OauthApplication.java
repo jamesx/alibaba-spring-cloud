@@ -20,8 +20,5 @@ public class OauthApplication {
         return new RestTemplate();
     }
 
-//    @Bean
-//    public FeignInterceptor feignInterceptor(){
-//        return new FeignInterceptor();
-//    }
+
 }
