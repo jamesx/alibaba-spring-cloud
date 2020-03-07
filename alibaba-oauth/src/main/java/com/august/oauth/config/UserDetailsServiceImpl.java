@@ -51,8 +51,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         //根据用户名查询用户信息
-        String hello = userFeign.hello("august");
-
         Resp<User> resp = userFeign.findByUserName(username);
         //创建User对象
         String permissions = "goods_list,seckill_list";

@@ -11,6 +11,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 /**
  * <p>
@@ -31,5 +33,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         );
 
         return new PageVo(page);
+    }
+
+    public static void main(String[] args) {
+        PathMatcher matcher = new AntPathMatcher();
+        String path = "/app/pub/login.do";
+        String pattern = "/**/lo?in.do";
+        boolean match = matcher.match(pattern, path);
+        System.out.println(match);
+
     }
 }

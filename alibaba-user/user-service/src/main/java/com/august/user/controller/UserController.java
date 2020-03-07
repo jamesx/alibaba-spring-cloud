@@ -46,7 +46,6 @@ public class UserController {
         OAuth2AuthenticationDetails authentication = (OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
         Map<String, String> stringStringMap = JwtUtil.decodeToken(authentication.getTokenValue(), ResourceServerConfig.PUBLIC_KEY);
         return "";
-
     }
 
     //http://localhost:8081/user/orderFeign

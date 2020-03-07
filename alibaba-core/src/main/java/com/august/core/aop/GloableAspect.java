@@ -22,6 +22,12 @@ public class GloableAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object proceed = null;
         try {
+            //rbac
+            if(globalConfig.getEnabledRbac()){
+
+            }
+
+            //验证
             if(globalConfig.getEnabledValidation()){
                 Object[] args = point.getArgs();
                 for (Object obj:args){
