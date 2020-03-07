@@ -50,8 +50,6 @@ public class UserLoginController {
         AuthToken authToken = loginService.login(username, password, clientId, clientSecret, GRAND_TYPE);
         //设置到cookie中
         saveCookie(authToken.getAccessToken());
-        // 设置到头文件中
-        response.setHeader("Authorization", authToken.getAccessToken());
         return Resp.ok(authToken);
     }
 

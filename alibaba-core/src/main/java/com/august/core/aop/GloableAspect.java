@@ -7,8 +7,19 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Aspect
@@ -24,12 +35,27 @@ public class GloableAspect {
         try {
             //rbac
             if(globalConfig.getEnabledRbac()){
+                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+                String requestPath = request.getServletPath();
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+                PathMatcher matcher = new AntPathMatcher();
+                AtomicReference<Boolean> hasAuthority= new AtomicReference<>(false);
 
+                authorities.forEach(item->{
+                    if(matcher.match(requestPath,item.toString())){
+                        hasAuthority.set(true);
+                    }
+                });
+                if(!hasAuthority.get()){
+                    return Resp.fail("无权限访问");
+                }
             }
 
             //验证
             if(globalConfig.getEnabledValidation()){
                 Object[] args = point.getArgs();
+                System.out.println("args: "+args.length);
                 for (Object obj:args){
                     if(obj instanceof BindingResult){
                         BindingResult r = (BindingResult) obj;

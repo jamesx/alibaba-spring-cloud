@@ -10,10 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -23,8 +20,6 @@ import org.springframework.util.StringUtils;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    ClientDetailsService clientDetailsService;
 
     @Autowired
     private UserFeign userFeign;
@@ -53,7 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //根据用户名查询用户信息
         Resp<User> resp = userFeign.findByUserName(username);
         //创建User对象
-        String permissions = "goods_list,seckill_list";
+        String permissions = "goods_list,/user/hello";
         UserJwt userDetails = new UserJwt(username,resp.getData().getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
         userDetails.setComny("阿里巴巴");
         return userDetails;

@@ -42,10 +42,10 @@ public class UserController {
     }
 
     @GetMapping("/userInfo")
-    public String getUserInfo(){
+    public Resp<Map> getUserInfo(){
         OAuth2AuthenticationDetails authentication = (OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
         Map<String, String> stringStringMap = JwtUtil.decodeToken(authentication.getTokenValue(), ResourceServerConfig.PUBLIC_KEY);
-        return "";
+        return Resp.ok(stringStringMap);
     }
 
     //http://localhost:8081/user/orderFeign
