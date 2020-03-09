@@ -78,7 +78,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 //                .antMatchers(HttpMethod.PUT, "/**").permitAll()
 //                .antMatchers(HttpMethod.DELETE, "/**").permitAll()
                 .antMatchers(
-                        "/user/info","/user/save") //配置地址放行
+                        "/user/info","/user/save","/user/list") //配置地址放行
                 .permitAll()
                 .anyRequest()
                 .authenticated();    //其他地址需要认证授权

@@ -1,5 +1,6 @@
 package com.august.user.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.august.commons.JwtUtil;
 import com.august.core.bean.PageVo;
 import com.august.core.bean.QueryCondition;
@@ -12,8 +13,12 @@ import com.august.user.service.IUserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.validation.BindingResult;
@@ -24,6 +29,8 @@ import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RestController
@@ -32,6 +39,15 @@ public class UserController {
 
     @Autowired
     OrderFeign orderFeign;
+
+    public static final String USER_LIST = "user:list:";
+
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Autowired
     private IUserService userService;
@@ -69,9 +85,27 @@ public class UserController {
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
     public Resp<PageVo> list(QueryCondition queryCondition) {
-        PageVo page = userService.queryPage(queryCondition);
+        PageVo pageVo;
+        String json = stringRedisTemplate.opsForValue().get(USER_LIST);
+		if (StringUtils.isNotEmpty(json)) {
+            pageVo = JSON.parseObject(json, PageVo.class);
+            return Resp.ok(pageVo);
+		}
 
-        return Resp.ok(page);
+        // 加分布式锁
+		RLock lock = redissonClient.getLock("lock" + USER_LIST);
+		lock.lock();
+
+        // 加锁之后再判断一次redis中有没有
+		String cacheDataString = stringRedisTemplate.opsForValue().get(USER_LIST);
+		if (StringUtils.isNotEmpty(cacheDataString)) {
+            pageVo = JSON.parseObject(cacheDataString, PageVo.class);
+		} else {
+            pageVo=userService.queryPage(queryCondition);
+            stringRedisTemplate.opsForValue().set(USER_LIST, JSON.toJSONString(pageVo), 7 + new Random().nextInt(5), TimeUnit.DAYS);
+		}
+        lock.unlock();
+        return Resp.ok(pageVo);
     }
 
 
