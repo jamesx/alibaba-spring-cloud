@@ -1,6 +1,7 @@
 package com.august.user;
 
 import com.august.core.interceptor.FeignInterceptor;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -10,6 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
+@EnableRabbit
 @EnableFeignClients
 @ComponentScan("com.august")
 public class UserApplication {
