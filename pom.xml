@@ -17,7 +17,7 @@
         <module>alibaba-oauth</module>
     </modules>
     <packaging>pom</packaging>
-
+    <!--https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E-->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
