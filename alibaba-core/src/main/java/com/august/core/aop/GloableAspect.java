@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
 
-@Slf4j
-@Aspect
-@Component
+//@Slf4j
+//@Aspect
+//@Component
 public class GloableAspect {
 
     @Autowired

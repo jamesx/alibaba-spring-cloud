@@ -69,6 +69,15 @@ public class OrderController {
         return Resp.ok(null);
     }
 
+    @ApiOperation("保存")
+    @PostMapping("/remoteSave")
+    public Resp<Object> remoteSave(String userName){
+        Order order = new Order();
+        order.setUserName(userName);
+        orderService.save(order);
+        return Resp.ok(null);
+    }
+
     /**
      * 修改
      */

@@ -5,6 +5,7 @@ import com.august.commons.JwtUtil;
 import com.august.core.bean.PageVo;
 import com.august.core.bean.QueryCondition;
 import com.august.core.bean.Resp;
+import com.august.order.po.Order;
 import com.august.user.config.ResourceServerConfig;
 import com.august.user.dto.UserDto;
 import com.august.user.feign.OrderFeign;
@@ -140,6 +141,12 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(userDto,user);
         userService.save(user);
+/*
+        Order order = new Order();
+        order.setUserName("你好");*/
+        orderFeign.remoteSave("zhangsan");
+        //orderFeign.hello();
+
         return Resp.ok(null);
     }
 
