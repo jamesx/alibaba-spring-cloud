@@ -1,0 +1,39 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.3.1:8848
+    gateway:
+      routes:
+      #oauth
+        - id: oauth_route
+          uri: lb://alibaba-oauth
+          predicates:
+            - Path=/api/oauth/**
+          filters:
+            - StripPrefix=1
+      # user
+        - id: user_route
+          uri: lb://alibaba-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+      # order
+        - id: order_route
+          uri: lb://alibaba-order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+server:
+  port: 8083
