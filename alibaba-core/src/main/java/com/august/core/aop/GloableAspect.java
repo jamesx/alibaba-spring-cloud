@@ -1,12 +1,17 @@
 package com.august.core.aop;
 
+import com.august.core.bean.Constant;
 import com.august.core.bean.Resp;
+import com.august.core.bean.ResultEnum;
 import com.august.core.config.GlobalConfig;
+import com.august.core.exception.ParameterException;
+import com.august.core.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,13 +23,18 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-//@Slf4j
-//@Aspect
-//@Component
+@Slf4j
+@Aspect
+@Component
 public class GloableAspect {
+
+    @Value("#{'${permitPath}'.split(',')}")
+    private String[] permitPath;
 
     @Autowired
     GlobalConfig globalConfig;
@@ -32,6 +42,9 @@ public class GloableAspect {
     @Around("execution(* com.august..*Controller.*(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object proceed = null;
+
+        System.out.println("permitPath"+permitPath);
+
         try {
             //rbac
             if(globalConfig.getEnabledRbac()){
@@ -42,13 +55,24 @@ public class GloableAspect {
                 PathMatcher matcher = new AntPathMatcher();
                 AtomicReference<Boolean> hasAuthority= new AtomicReference<>(false);
 
-                authorities.forEach(item->{
-                    if(matcher.match(requestPath,item.toString())){
-                        hasAuthority.set(true);
+                AtomicBoolean permit= new AtomicBoolean(false);
+                if(permitPath!=null){
+                    Arrays.asList(permitPath).forEach(item->{
+                        if(matcher.match(requestPath,item)){
+                            permit.set(true);
+                        }
+                    });
+                }
+                if(!permit.get()){
+                    authorities.forEach(item->{
+                        if(matcher.match(requestPath,item.toString())){
+                            hasAuthority.set(true);
+                        }
+                    });
+                    if(!hasAuthority.get()){
+                        throw new UnauthorizedException(ResultEnum.UNAUTHORIZED);
+                        //return Resp.fail("无权限访问");
                     }
-                });
-                if(!hasAuthority.get()){
-                    return Resp.fail("无权限访问");
                 }
             }
 
@@ -60,7 +84,7 @@ public class GloableAspect {
                     if(obj instanceof BindingResult){
                         BindingResult r = (BindingResult) obj;
                         if(r.getErrorCount()>0){
-                            return Resp.fail(r.getFieldError().getDefaultMessage());
+                            throw new  ParameterException(Constant.PARAMETER_ERROR,r.getFieldError().getDefaultMessage());
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 package com.august.user.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -25,6 +26,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     //公钥
     public static final String PUBLIC_KEY = "public.key";
+
+
+
+    @Value("#{'${permitPath}'.split(',')}")
+    private String[] permitPath;
 
     /***
      * 定义JwtTokenStore
@@ -70,6 +76,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
+
         http.authorizeRequests()
                 //下边的路径放行
 //                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -77,8 +84,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 //                .antMatchers(HttpMethod.POST, "/**").permitAll()
 //                .antMatchers(HttpMethod.PUT, "/**").permitAll()
 //                .antMatchers(HttpMethod.DELETE, "/**").permitAll()
-                .antMatchers(
-                        "/user/info","/user/save","/user/list","/mq/send","/user/orderFeign") //配置地址放行
+                .antMatchers(permitPath) //配置地址放行
                 .permitAll()
                 .anyRequest()
                 .authenticated();    //其他地址需要认证授权

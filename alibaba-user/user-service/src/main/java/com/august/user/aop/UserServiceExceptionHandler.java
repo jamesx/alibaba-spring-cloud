@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class UserServiceExceptionHandler {
 
     @ExceptionHandler(value = {ArithmeticException.class})
     public Object handlerException(Exception exception){
@@ -17,4 +17,9 @@ public class GlobalExceptionHandler {
         return Resp.fail("数学运算异常");
     }
 
+//    @UserServiceExceptionHandler(value = {ArithmeticException.class})
+//    public Object handlerException(Exception exception){
+//        log.error("系统出错!",exception.getStackTrace());
+//        return Resp.fail("数学运算异常");
+//    }
 }

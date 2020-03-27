@@ -58,6 +58,11 @@ public class UserController {
         return "Hello~: ";
     }
 
+    @GetMapping("/hello2")
+    public String hello2() {
+        return "Hello2~: ";
+    }
+
     @GetMapping("/userInfo")
     public Resp<Map> getUserInfo(){
         OAuth2AuthenticationDetails authentication = (OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
