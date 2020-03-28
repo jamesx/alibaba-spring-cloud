@@ -16,7 +16,7 @@ public class GloableAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object proceed = null;
         try {
-            log.debug("校验切面介入工作....");
+           // log.debug("校验切面介入工作....");
             Object[] args = point.getArgs();
             for (Object obj:args){
                 if(obj instanceof BindingResult){

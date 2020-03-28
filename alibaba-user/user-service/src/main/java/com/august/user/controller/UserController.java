@@ -2,6 +2,7 @@ package com.august.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.august.commons.JwtUtil;
+import com.august.core.annotation.AlibabaCache;
 import com.august.core.bean.PageVo;
 import com.august.core.bean.QueryCondition;
 import com.august.core.bean.Resp;
@@ -41,7 +42,7 @@ public class UserController {
     @Autowired
     OrderFeign orderFeign;
 
-    public static final String USER_LIST = "user:list:";
+    public static final String USER_LIST = "user:list";
 
 
     @Autowired
@@ -90,27 +91,30 @@ public class UserController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
+    @AlibabaCache(prefix = USER_LIST, timeout = 7200, random = 100)
     public Resp<PageVo> list(QueryCondition queryCondition) {
         PageVo pageVo;
-        String json = stringRedisTemplate.opsForValue().get(USER_LIST);
-		if (StringUtils.isNotEmpty(json)) {
-            pageVo = JSON.parseObject(json, PageVo.class);
-            return Resp.ok(pageVo);
-		}
+//        String json = stringRedisTemplate.opsForValue().get(USER_LIST);
+//		if (StringUtils.isNotEmpty(json)) {
+//            pageVo = JSON.parseObject(json, PageVo.class);
+//            return Resp.ok(pageVo);
+//		}
+//
+//        // 加分布式锁
+//		RLock lock = redissonClient.getLock("lock" + USER_LIST);
+//		lock.lock();
+//
+//        // 加锁之后再判断一次redis中有没有
+//		String cacheDataString = stringRedisTemplate.opsForValue().get(USER_LIST);
+//		if (StringUtils.isNotEmpty(cacheDataString)) {
+//            pageVo = JSON.parseObject(cacheDataString, PageVo.class);
+//		} else {
+//            pageVo=userService.queryPage(queryCondition);
+//            stringRedisTemplate.opsForValue().set(USER_LIST, JSON.toJSONString(pageVo), 7 + new Random().nextInt(5), TimeUnit.DAYS);
+//		}
+//        lock.unlock();
 
-        // 加分布式锁
-		RLock lock = redissonClient.getLock("lock" + USER_LIST);
-		lock.lock();
-
-        // 加锁之后再判断一次redis中有没有
-		String cacheDataString = stringRedisTemplate.opsForValue().get(USER_LIST);
-		if (StringUtils.isNotEmpty(cacheDataString)) {
-            pageVo = JSON.parseObject(cacheDataString, PageVo.class);
-		} else {
-            pageVo=userService.queryPage(queryCondition);
-            stringRedisTemplate.opsForValue().set(USER_LIST, JSON.toJSONString(pageVo), 7 + new Random().nextInt(5), TimeUnit.DAYS);
-		}
-        lock.unlock();
+        pageVo=userService.queryPage(queryCondition);
         return Resp.ok(pageVo);
     }
 

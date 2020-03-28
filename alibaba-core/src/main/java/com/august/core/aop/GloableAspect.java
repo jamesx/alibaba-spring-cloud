@@ -43,7 +43,7 @@ public class GloableAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object proceed = null;
 
-        System.out.println("permitPath"+permitPath);
+        //System.out.println("permitPath"+permitPath);
 
         try {
             //rbac
@@ -79,7 +79,7 @@ public class GloableAspect {
             //验证
             if(globalConfig.getEnabledValidation()){
                 Object[] args = point.getArgs();
-                System.out.println("args: "+args.length);
+                //System.out.println("args: "+args.length);
                 for (Object obj:args){
                     if(obj instanceof BindingResult){
                         BindingResult r = (BindingResult) obj;
