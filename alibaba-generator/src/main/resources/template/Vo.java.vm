@@ -1,0 +1,8 @@
+package ${package}.${moduleName}.vo;
+
+import lombok.Data;
+
+@Data
+public class ${className}VO {
+
+}

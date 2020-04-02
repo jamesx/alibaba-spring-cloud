@@ -1,19 +1,20 @@
 package com.august.user.service;
 
 import com.august.core.bean.PageVo;
-import com.august.user.po.User;
+import com.august.user.po.AddressEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-
 import java.util.Map;
 
+
 /**
- * <p>
- *  服务类
- * </p>
+ * 
  *
  * @author august
- * @since 2020-03-05
+ * @email 379249906@qq.com
+ * @date 2020-04-02 17:14:23
  */
-public interface IUserService extends IService<User> {
+public interface AddressService extends IService<AddressEntity> {
+
     PageVo queryPage(Map<String, Object> params);
 }
+

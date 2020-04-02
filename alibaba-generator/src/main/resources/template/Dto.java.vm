@@ -1,0 +1,8 @@
+package ${package}.${moduleName}.dto;
+
+import lombok.Data;
+
+@Data
+public class ${className}Dto {
+
+}

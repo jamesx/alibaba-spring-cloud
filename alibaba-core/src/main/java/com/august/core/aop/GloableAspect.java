@@ -58,7 +58,7 @@ public class GloableAspect {
                 AtomicBoolean permit= new AtomicBoolean(false);
                 if(permitPath!=null){
                     Arrays.asList(permitPath).forEach(item->{
-                        if(matcher.match(requestPath,item)){
+                        if(matcher.match(item,requestPath)){
                             permit.set(true);
                         }
                     });

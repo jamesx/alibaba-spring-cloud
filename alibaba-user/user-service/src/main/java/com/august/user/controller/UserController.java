@@ -1,12 +1,9 @@
 package com.august.user.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.august.commons.JwtUtil;
 import com.august.core.annotation.AlibabaCache;
 import com.august.core.bean.PageVo;
-import com.august.core.bean.QueryCondition;
 import com.august.core.bean.Resp;
-import com.august.order.po.Order;
 import com.august.user.config.ResourceServerConfig;
 import com.august.user.dto.UserDto;
 import com.august.user.feign.OrderFeign;
@@ -92,7 +89,7 @@ public class UserController {
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
     @AlibabaCache(prefix = USER_LIST, timeout = 7200, random = 100)
-    public Resp<PageVo> list(QueryCondition queryCondition) {
+    public Resp<PageVo> list(@RequestParam Map<String, Object> params) {
         PageVo pageVo;
 //        String json = stringRedisTemplate.opsForValue().get(USER_LIST);
 //		if (StringUtils.isNotEmpty(json)) {
@@ -114,7 +111,7 @@ public class UserController {
 //		}
 //        lock.unlock();
 
-        pageVo=userService.queryPage(queryCondition);
+        pageVo=userService.queryPage(params);
         return Resp.ok(pageVo);
     }
 
