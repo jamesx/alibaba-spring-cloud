@@ -1,0 +1,20 @@
+package ${package}.${moduleName}.service;
+
+import ${mainPath}.core.bean.PageVo;
+import ${mainPath}.${moduleName}.po.${className}Entity;
+import com.baomidou.mybatisplus.extension.service.IService;
+import java.util.Map;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Service extends IService<${className}Entity> {
+
+    PageVo queryPage(Map<String, Object> params);
+}
+
