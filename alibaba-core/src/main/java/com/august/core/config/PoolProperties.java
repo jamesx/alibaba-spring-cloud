@@ -13,6 +13,7 @@ public class PoolProperties {
     private Integer coreSize;
     private Integer maximumPoolSize;
     private Integer queueSize;
+    private String test;
 
 
 }
