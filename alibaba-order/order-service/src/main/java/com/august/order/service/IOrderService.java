@@ -5,6 +5,8 @@ import com.august.core.bean.QueryCondition;
 import com.august.order.po.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Map;
+
 /**
  * <p>
  *  服务类
@@ -14,5 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-03-05
  */
 public interface IOrderService extends IService<Order> {
-    PageVo queryPage(QueryCondition params);
+    PageVo queryPage(Map<String, Object> params);
 }

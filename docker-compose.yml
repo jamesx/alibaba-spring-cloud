@@ -1,0 +1,58 @@
+version: '2'
+services:
+  alibaba-mysql:
+    build:
+      context: ./db
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    restart: always
+    container_name: alibaba-mysql
+    image: alibaba-mysql
+    ports:
+      - 3306:3306
+
+  alibaba-redis:
+    image: redis:5.0
+    ports:
+      - 6379:6379
+    restart: always
+    container_name: alibaba-redis
+    hostname: alibaba-redis
+
+  alibaba-register:
+    image: nacos-server:1.1.4
+    ports:
+      -8848:8848
+    restart: always
+    container_name: alibaba-register
+    hostname: alibaba-register
+
+  alibaba-gateway:
+    build:
+      context: ./alibaba-gateway
+    restart: always
+    ports:
+      - 8083:8083
+    container_name: alibaba-gateway
+    hostname: alibaba-gateway
+    image: alibaba-gateway
+
+  alibaba-oauth:
+    build:
+      context: ./alibaba-oauth
+    restart: always
+    ports:
+      - 8084:8084
+    container_name: alibaba-oauth
+    hostname: alibaba-oauth
+    image: alibaba-oauth
+
+  alibaba-user:
+    build:
+      context: ./alibaba-user/user-service
+    restart: always
+    ports:
+      - 8081:8081
+    container_name: alibaba-user
+    hostname: alibaba-user
+    image: alibaba-user

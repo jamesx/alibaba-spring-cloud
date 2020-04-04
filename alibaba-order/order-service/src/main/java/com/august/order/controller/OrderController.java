@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -42,8 +43,8 @@ public class OrderController {
      */
     @ApiOperation("分页查询(排序)")
     @GetMapping("/list")
-    public Resp<PageVo> list(QueryCondition queryCondition) {
-        PageVo page = orderService.queryPage(queryCondition);
+    public Resp<PageVo> list(@RequestParam Map<String, Object> params) {
+        PageVo page = orderService.queryPage(params);
 
         return Resp.ok(page);
     }

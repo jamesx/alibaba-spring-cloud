@@ -17,6 +17,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -51,8 +52,16 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @Value("${permitPath2}")
+    private String permitPath2;
+
+    @Value("${permitPath3}")
+    private String permitPath3;
+
     @GetMapping("/hello")
     public String hello() {
+        System.out.println("permitPath: "+permitPath2);
+        System.out.println("permitPath3: "+permitPath3);
         return "Hello~: ";
     }
 

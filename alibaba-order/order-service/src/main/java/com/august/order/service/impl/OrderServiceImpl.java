@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
+import java.util.Map;
+
 /**
  * <p>
  *  服务实现类
@@ -26,7 +28,7 @@ import org.springframework.util.PathMatcher;
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService {
 
     @Override
-    public PageVo queryPage(QueryCondition params) {
+    public PageVo queryPage(Map<String, Object> params) {
         IPage<Order> page = this.page(
                 new Query<Order>().getPage(params),
                 new QueryWrapper<>()
