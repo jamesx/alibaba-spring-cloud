@@ -16,6 +16,7 @@
         <module>alibaba-gateway</module>
         <module>alibaba-oauth</module>
         <module>alibaba-generator</module>
+        <module>alibaba-register</module>
     </modules>
     <packaging>pom</packaging>
     <!--https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E-->

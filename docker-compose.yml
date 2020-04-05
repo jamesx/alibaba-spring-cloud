@@ -20,12 +20,14 @@ services:
     hostname: alibaba-redis
 
   alibaba-register:
-    image: nacos-server:1.1.4
-    ports:
-      -8848:8848
+    build:
+      context: ./alibaba-register
     restart: always
+    ports:
+      - 8848:8848
     container_name: alibaba-register
     hostname: alibaba-register
+    image: alibaba-register
 
   alibaba-gateway:
     build:
