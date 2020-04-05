@@ -25,6 +25,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -63,6 +64,12 @@ public class GloableAspect {
                         }
                     });
                 }
+
+                List<String> permitPaths = Arrays.asList(permitPath);
+                System.out.println("permitPaths: "+permitPaths);
+                System.out.println("requestPath: "+requestPath);
+                System.out.println("permit.get: "+permit.get());
+                System.out.println("authorities: "+authorities);
                 if(!permit.get()){
                     authorities.forEach(item->{
                         if(matcher.match(requestPath,item.toString())){
@@ -75,6 +82,8 @@ public class GloableAspect {
                     }
                 }
             }
+
+
 
             //验证
             if(globalConfig.getEnabledValidation()){

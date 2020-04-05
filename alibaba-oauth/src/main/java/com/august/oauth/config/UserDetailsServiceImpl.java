@@ -48,7 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //根据用户名查询用户信息
         Resp<User> resp = userFeign.findByUserName(username);
         //创建User对象
-        String permissions = "goods_list,/user/hello";
+        String permissions = "goods_list,/user/hello,/user/list";
         UserJwt userDetails = new UserJwt(username,resp.getData().getPassword(), AuthorityUtils.commaSeparatedStringToAuthorityList(permissions));
         userDetails.setComny("阿里巴巴");
         return userDetails;

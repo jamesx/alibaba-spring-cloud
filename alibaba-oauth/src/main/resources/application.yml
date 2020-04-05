@@ -3,7 +3,7 @@ spring:
     name: @artifactId@
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://${MYSQL-HOST:alibaba-mysql}:${MYSQL-PORT:3306}/${MYSQL-DB:alibaba-cloud}?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://${MYSQL-HOST:alibaba-mysql}:${MYSQL-PORT:3306}/${MYSQL-DB:alibaba-cloud}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
     username: ${MYSQL-USER:root}
     password: ${MYSQL-PWD:1234}
   cloud:

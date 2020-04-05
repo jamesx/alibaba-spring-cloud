@@ -26,7 +26,7 @@ public class AlibabaCacheAspect {
     @Autowired
     private RedissonClient redissonClient;
 
-    @Around("@annotation(com.august.core.annotation.AlibabaCache)")
+    //@Around("@annotation(com.august.core.annotation.AlibabaCache)")
     public Object IndexCacheAround(ProceedingJoinPoint joinPoint) throws Throwable {
         // 获取注解属性
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();

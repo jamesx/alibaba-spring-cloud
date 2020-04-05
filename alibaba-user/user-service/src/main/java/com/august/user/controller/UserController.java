@@ -96,8 +96,8 @@ public class UserController {
      * 列表
      */
     @ApiOperation("分页查询(排序)")
-    @GetMapping("/list")
     @AlibabaCache(prefix = USER_LIST, timeout = 7200, random = 100)
+    @GetMapping("/list")
     public Resp<PageVo> list(@RequestParam Map<String, Object> params) {
         PageVo pageVo;
 //        String json = stringRedisTemplate.opsForValue().get(USER_LIST);
