@@ -1,7 +1,6 @@
 package com.august.core.aop;
 
 import com.august.core.bean.Constant;
-import com.august.core.bean.Resp;
 import com.august.core.bean.ResultEnum;
 import com.august.core.config.GlobalConfig;
 import com.august.core.exception.ParameterException;
@@ -12,6 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 @Aspect
 @Component
+@Order(1)
 public class GloableAspect {
 
     @Value("#{'${permitPath}'.split(',')}")
@@ -40,12 +41,12 @@ public class GloableAspect {
     @Autowired
     GlobalConfig globalConfig;
 
+
+
     @Around("execution(* com.august..*Controller.*(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object proceed = null;
-
         //System.out.println("permitPath"+permitPath);
-
         try {
             //rbac
             if(globalConfig.getEnabledRbac()){

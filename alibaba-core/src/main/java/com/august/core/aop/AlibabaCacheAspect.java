@@ -10,6 +10,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,8 @@ public class AlibabaCacheAspect {
     @Autowired
     private RedissonClient redissonClient;
 
-    //@Around("@annotation(com.august.core.annotation.AlibabaCache)")
+    @Around("@annotation(com.august.core.annotation.AlibabaCache)")
+    @Order(2)
     public Object IndexCacheAround(ProceedingJoinPoint joinPoint) throws Throwable {
         // 获取注解属性
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -42,7 +44,7 @@ public class AlibabaCacheAspect {
 
         String json;
         // 从缓存中查询
-        String key = prefix;
+        String key = prefix + Arrays.asList(args).toString();
         json = redisTemplate.opsForValue().get(key);
 
         // 命中返回
@@ -51,7 +53,7 @@ public class AlibabaCacheAspect {
         }
 
         // 没有命中,加分布式锁
-        RLock lock = redissonClient.getLock("lock");
+        RLock lock = redissonClient.getLock("lock" + Arrays.asList(args).toString());
         lock.lock();
 
         // 再次查询缓存,命中返回
